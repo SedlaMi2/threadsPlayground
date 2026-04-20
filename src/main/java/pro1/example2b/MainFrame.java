@@ -46,23 +46,8 @@ public class MainFrame extends JFrame {
         centerPanel.validate();
         centerPanel.repaint();
 
-        for (int y = 1995; y <= 2030; y++) {
-            String json = Api.getActionsByRoom(room, term, y);
-            ActionsList actions = new Gson().fromJson(json, ActionsList.class);
-            int localY = y;
-
-            // START UPDATING UI
-                JLabel label = new JLabel("");
-                label.setText(localY + ": " + actions.items.size() + " akcí");
-                label.setBorder(new CompoundBorder(
-                        BorderFactory.createLineBorder(Color.black),
-                        new EmptyBorder(10, 10, 10, 10)
-                ));
-                centerPanel.add(label);
-                centerPanel.validate();
-                centerPanel.repaint();
-            // END UPDATING UI
+        var worker = new MyWorker(centerPanel, room, term);
+        worker.execute();
         }
 
     }
-}
